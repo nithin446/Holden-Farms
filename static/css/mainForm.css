@@ -1,0 +1,88 @@
+
+/*#f5a541  Orange*/
+/*#7e7f81  grey*/
+body{
+    font-family: Oswald, sans-serif;
+    background:rgba(245, 165, 65, 0.5);
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+button{
+    border:none;
+    background:#f5a541;
+    color:#fafafa;
+}
+textarea, input, button { outline: none; }
+input,
+label{
+    margin: 5px 5%;
+    width:90%;
+}
+input{
+    z-index: 1;
+    border:none;
+    border-bottom:1px solid rgba(0,0,0,0.5);
+    box-sizing: border-box;
+    background:none;
+    font-size:20px;
+    padding:5px;
+}
+label{
+    font-size:20px;
+    z-index: 2;
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    cursor:text;
+    transition: color .3s;
+}
+input.input--filled + label{
+    color:rgba(0,0,0,0);
+}
+label:after{
+    z-index: 2;
+    content:'';
+    position:absolute;
+    width:0;
+    height:4px;
+    background:#f5a541;
+    left:0;
+    top:calc(100% - 2px);
+    transition: all .3s;
+}
+input.input--filled + label:after{
+    width:100%;
+}
+p{
+    width:100%;
+    display: inline-block;
+    position:relative;
+    min-height: 20px;
+    box-sizing: border-box;
+}
+
+
+
+.centered{
+    width:auto;
+    height:auto;
+    margin: auto;
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background:#fafafa;
+    box-shadow: 0 0px 9px 2px rgba(0,0,0,0.08);
+}
+#login{
+    width:300px;
+    height:500px;
+}
+

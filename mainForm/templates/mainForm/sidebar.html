@@ -1,0 +1,26 @@
+
+<div class="menu icon-cog">
+    <div class="overlay"></div>
+    <div class="menu_inner shadowed">
+   
+        <ul>
+            <li> <a href="/logout/">Logout</a> </li>
+            <li> <a href="/submissions/">Dashboard</a> </li>
+            <li> <a href="/">Pig Entry</a> </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    (function(){
+        var menu = document.getElementsByClassName("menu")[0];
+        menu.onclick = function(){
+            if(menu.classList.contains("open")){
+                menu.classList.remove("open");
+            }
+            else{
+                menu.classList.add("open");
+            }
+        }
+    })();
+</script>

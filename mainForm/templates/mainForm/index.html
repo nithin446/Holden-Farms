@@ -1,0 +1,39 @@
+{% extends 'mainForm/base.html' %}
+
+{% block content %}
+    {% include 'mainForm/sidebar.html' %}
+
+    <div class="centered small shadowed" id="pigEntry">
+        <form method="POST" class="post-form">{% csrf_token %}
+            <div id="datepicker"></div>
+            {% for field in form %}
+
+                {% if not field.is_hidden %}
+                    <p class="input">
+                        {{ field.errors }}
+                        {{ field }} 
+                        
+                            <label for="{{ field.id_for_label }}" class="noselect">
+                                <span>{{ field.label }}</span>
+                            </label>
+                    
+                    </p>
+                {% else %}
+                    <p class="input hidden">
+                        {{ field.errors }}
+                        {{ field }} 
+                    </p>
+                {% endif %}
+
+            {% endfor %}
+            <button type="submit" class="save btn btn-default">Save</button>
+        </form>
+    </div>
+    <script>
+        $( function() {
+            $( "#datepicker" ).datepicker({
+                altField: '#id_entry_date'
+            });
+        } );
+    </script>
+{% endblock %}

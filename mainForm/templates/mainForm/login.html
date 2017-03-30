@@ -1,0 +1,30 @@
+{% extends 'mainForm/base.html' %}
+
+{% block title %}Login{% endblock %}
+{% load static %}
+
+{% block content %}
+  <div class="centered small shadowed" id="login">
+
+    <image id="logo" src="{% static 'images/holden-logo.png' %}">
+    <form method="post">
+      {{ form.non_field_errors }}
+      {% csrf_token %}
+        <p class="input">
+          <input class="input__field" id="id_username" maxlength="254" name="username" type="text" required="">
+          <label for="id_username" class="noselect">
+            <span>Username</span>
+          </label>
+        </p>
+        <p class="input">
+          <input class="input__field" id="id_password" maxlength="254" name="password" type="password" required="">
+          <label for="id_password" class="noselect">
+            <span>Password</span>
+          </label>
+        </p>
+      <button type="submit" class="noselect">Sign in</button>
+      
+    </form>
+  </div>
+  
+{% endblock %}

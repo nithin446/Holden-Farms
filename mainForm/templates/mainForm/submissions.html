@@ -1,0 +1,25 @@
+{% extends 'mainForm/base.html' %}
+
+{% block content %}
+    {% include 'mainForm/sidebar.html' %}
+ <div class="centered small" id="submissions">
+    <table>
+        <thead>
+            <tr>
+                <td>Week</td>
+                <td>Room Number</td>
+                <td>Number of Pigs</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in submissions %}
+                <tr>
+                    <td>{{entry.week_of_year}}</td>
+                    <td>{{entry.room_number}}</td>
+                    <td>{{entry.number_of_pigs}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+ </div>
+{% endblock %}
