@@ -18,7 +18,7 @@
 
                     {% for field in form %}
 
-                        {% if not field.is_hidden %}
+                        {% if not field.disabled %}
                             <p class="input">
                                 {{ field.errors }}
                                 {{ field }} 
@@ -28,6 +28,7 @@
                                     </label>
                             
                             </p>
+                            
                         {% else %}
                             <p class="input hidden">
                                 {{ field.errors }}
@@ -52,7 +53,9 @@
             $("#nextButton").click(function(){
                 var dates = $('#datepicker').multiDatesPicker('getDates');
                 if(dates.length > 0){
+                    loadDates();
                     $("#pigEntry").removeClass("right");
+                    $("#dateError").css("visibility", "hidden");
                 }
                 else{
                     $("#dateError").css("visibility", "visible");
@@ -61,6 +64,21 @@
             $("#backButton").click(function(){
                 $("#pigEntry").addClass("right");
             })
+
+            function loadDates(){
+                var dates = $('#datepicker').multiDatesPicker('getDates');
+                var dateElms = $('.dateInput');
+                for(var i = 0; i<dateElms.length; i++){
+                    var label = $('label[for="' + dateElms[i].id + '"]');
+                    var span = label.find("span");
+                    span.text(dates[i]);
+                    dateElms.val(dates[i]);
+                   //console.log(span);
+                }
+            }
+
         } );
+
+        
     </script>
 {% endblock %}

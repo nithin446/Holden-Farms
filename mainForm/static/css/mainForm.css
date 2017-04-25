@@ -4,6 +4,8 @@
 body{
     font-family: Oswald, sans-serif;
     background:rgba(245, 165, 65, 0.5);
+    width:100%;
+    overflow-x:hidden;
 }
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
@@ -542,17 +544,43 @@ thead td{
     height: 950px;
 }
 #pigEntry .input{
-    width:32%;
+    width:28%;
     margin:4px 0;
 }
+#pigEntry .input:nth-child(3n){
+    width:40%;
+}
 .centered{
-    transition:all .2s;
+    transition: left .2s, height 0s;
+    
 }
 .centered.right{
     left:100%;
+    transition-delay: 0s, .2s;
+    height:0 !important;
+    overflow: hidden;
 }
-
-
+#pigEntry .dateInput{
+    border-bottom:0;
+    visibility: hidden;
+}
+#pigEntry .dateInput + label span{
+    animation: none;
+    font-weight: bold;
+}
+#pigEntry select{
+    margin-left:10px;
+}
+#pigEntry select + label{
+    margin-top:-18px;
+    margin-left:25px;
+    padding:0;
+    width:50px;
+    height:10px;
+}
+#pigEntry select + label:after{
+    display:none;
+}
 
 
 /*************************/
@@ -567,5 +595,10 @@ thead td{
     .centered.small{
         width:95% !important;
         margin-top:2.5% !important;
+    }
+}
+@media only screen and (max-height: 950px){
+    #pigEntry{
+        margin:2.5% auto;
     }
 }

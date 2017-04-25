@@ -44,7 +44,7 @@ def pig_form(request):
 
 @login_required
 def farm_submissions(request):
-    submissions = PigEntry.objects.filter(farm = request.user).order_by('-week_of_year', 'room_number')
+    submissions = PigEntry.objects.filter(farm = request.user).order_by('-week_of_year')
     return render(request, 'mainForm/submissions.html', {'submissions':submissions})
 
 """def post_new(request):
