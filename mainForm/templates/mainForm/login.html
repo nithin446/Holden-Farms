@@ -7,7 +7,7 @@
   <div class="centered small shadowed" id="login">
 
     <image id="logo" src="{% static 'images/holden-logo.png' %}">
-    <form method="post">
+    <form method="post" autocomplete="off">
       {{ form.non_field_errors }}
       {% csrf_token %}
         <p class="input">
@@ -17,7 +17,7 @@
           </label>
         </p>
         <p class="input">
-          <input class="input__field" id="id_password" maxlength="254" name="password" type="password" required="">
+          <input class="input__field" id="id_password" maxlength="254" name="password" type="password" required="" autocomplete="new-password">
           <label for="id_password" class="noselect">
             <span>Password</span>
           </label>

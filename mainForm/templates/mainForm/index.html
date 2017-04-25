@@ -3,37 +3,64 @@
 {% block content %}
     {% include 'mainForm/sidebar.html' %}
 
-    <div class="centered small shadowed" id="pigEntry">
+
         <form method="POST" class="post-form">{% csrf_token %}
-            <div id="datepicker"></div>
-            {% for field in form %}
+            <div class="centered small shadowed" id="pickDate">
+                <div id="datepicker"></div>
+                <button type="button" id="nextButton" class="save btn btn-default">Next</button>
+                <ul class="errorlist" id="dateError">
+                    <li>No date was selected. Please select a date range before continuing</li>
+                </ul>
+            </div>
+            <div class="centered right small shadowed" id="pigEntry">
+                <div id="backButton" class="back">Back</div>
+                {% for form in formset %}
 
-                {% if not field.is_hidden %}
-                    <p class="input">
-                        {{ field.errors }}
-                        {{ field }} 
-                        
-                            <label for="{{ field.id_for_label }}" class="noselect">
-                                <span>{{ field.label }}</span>
-                            </label>
-                    
-                    </p>
-                {% else %}
-                    <p class="input hidden">
-                        {{ field.errors }}
-                        {{ field }} 
-                    </p>
-                {% endif %}
+                    {% for field in form %}
 
-            {% endfor %}
-            <button type="submit" class="save btn btn-default">Save</button>
+                        {% if not field.is_hidden %}
+                            <p class="input">
+                                {{ field.errors }}
+                                {{ field }} 
+                                
+                                    <label for="{{ field.id_for_label }}" class="noselect">
+                                        <span>{{ field.label }}</span>
+                                    </label>
+                            
+                            </p>
+                        {% else %}
+                            <p class="input hidden">
+                                {{ field.errors }}
+                                {{ field }} 
+                            </p>
+                        {% endif %}
+
+                    {% endfor %}
+                {% endfor %}
+                <button type="submit" class="save btn btn-default">Save</button>
+            </div>
+            
         </form>
     </div>
     <script>
         $( function() {
-            $( "#datepicker" ).datepicker({
-                altField: '#id_entry_date'
+            $( "#datepicker" ).multiDatesPicker({
+                altField: '#id_entry_date',
+                mode: 'daysRange',
+                autoselectRange: [0,14],
             });
+            $("#nextButton").click(function(){
+                var dates = $('#datepicker').multiDatesPicker('getDates');
+                if(dates.length > 0){
+                    $("#pigEntry").removeClass("right");
+                }
+                else{
+                    $("#dateError").css("visibility", "visible");
+                }
+            });
+            $("#backButton").click(function(){
+                $("#pigEntry").addClass("right");
+            })
         } );
     </script>
 {% endblock %}

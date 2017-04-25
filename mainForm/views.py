@@ -5,12 +5,17 @@ from .forms import PigEntryForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django import forms
+from django.forms import formset_factory
+
 
 # Create your views here.
 @login_required
 def pig_form(request):
-    if request.method =="POST":
-        form = PigEntryForm(request.POST)
+    PigFormSet = formset_factory(PigEntryForm,  extra=14)
+    if request.method == "POST" :
+        
+        #form = PigEntryForm(request.POST)
+        """
         if form.is_valid():
             entry = form.save(commit=False)
             week = entry.entry_date.isocalendar()[1]
@@ -30,10 +35,12 @@ def pig_form(request):
             #print(entry)
             #Other form saving stuff here
             return redirect('farm_submissions')
+            """
     else:
-        form = PigEntryForm()
-        form.fields['entry_date'].widget = forms.HiddenInput()
-    return render(request, 'mainForm/index.html', {'form': form, 'submission': request})
+        #form = PigEntryForm()
+        formset = PigFormSet()
+        #form.fields['entry_date'].widget = forms.HiddenInput()
+    return render(request, 'mainForm/index.html', {'formset':PigFormSet, 'submission': request})
 
 @login_required
 def farm_submissions(request):
