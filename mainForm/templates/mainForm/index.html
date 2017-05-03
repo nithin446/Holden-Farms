@@ -4,7 +4,7 @@
     {% include 'mainForm/sidebar.html' %}
 
 
-        <form method="POST" class="post-form">{% csrf_token %}
+        
             <div class="centered small shadowed" id="pickDate">
                 <div id="datepicker"></div>
                 <button type="button" id="nextButton" class="save btn btn-default">Next</button>
@@ -13,11 +13,15 @@
                 </ul>
             </div>
             <div class="centered right small shadowed" id="pigEntry">
-                <div id="backButton" class="back">Back</div>
+            <div id="backButton" class="back">Back</div>
+
+           <form method="POST" class="post-form">
+                {% csrf_token %}     
+                {{ formset.management_form }}
                 {% for form in formset %}
-
+                    
                     {% for field in form %}
-
+                        
                         {% if not field.disabled %}
                             <p class="input">
                                 {{ field.errors }}
@@ -68,14 +72,18 @@
             function loadDates(){
                 var dates = $('#datepicker').multiDatesPicker('getDates');
                 var dateElms = $('.dateInput');
-                for(var i = 0; i<dateElms.length; i++){
-                    var label = $('label[for="' + dateElms[i].id + '"]');
+                var counter = 0;
+                dateElms.each(function(){
+                    var label = $('label[for="' + this.id + '"]');
                     var span = label.find("span");
-                    span.text(dates[i]);
-                    dateElms.val(dates[i]);
-                   //console.log(span);
-                }
+                    span.text(dates[counter]);
+                    //dateElms[i].val(dates[i]);
+                    console.log($(this).val(dates[counter]));
+                    counter++;
+                });
+                    
             }
+            
 
         } );
 

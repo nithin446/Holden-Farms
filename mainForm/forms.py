@@ -6,7 +6,7 @@ from django.contrib.admin import widgets
 class PigEntryForm(forms.ModelForm):
     class Meta:
         model = PigEntry
-        fields = ('entry_date', 'number_of_pigs', 'flow')
+        fields = ('entry_date', 'number_of_pigs')
 
     def __init__(self, *args, **kwargs):
         super(PigEntryForm, self).__init__(*args, **kwargs)
@@ -15,4 +15,5 @@ class PigEntryForm(forms.ModelForm):
         )
        # self.fields['entry_date'].disabled = True
         self.fields['number_of_pigs'].label = "# of pigs"
+        self.fields['number_of_pigs'].required = False
     

@@ -2,22 +2,30 @@
 
 {% block content %}
     {% include 'mainForm/sidebar.html' %}
- <div class="centered small" id="submissions">
+ <div class="centered" id="submissions">
     <table>
         <thead>
             <tr>
-                <td>Week</td>
-                <td>Room Number</td>
-                <td>Number of Pigs</td>
+                <td>
+                {% for date in dates %}
+                    <td>{{date|date:"M d"}}</td>
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for entry in submissions %}
-                <tr>
-                    <td>{{entry.week_of_year}}</td>
-                
-                    <td>{{entry.number_of_pigs}}</td>
+            {% for flow in submissions %}
+                <tr class="flow">
+                    <td>{{flow.0}}</td>
                 </tr>
+                {% for farm in flow.1 %}
+                    <tr>
+                        <td> {{farm.0}}</td>
+                        
+                        {% for farm_submission in farm.1%}
+                            <td>{{farm_submission.0.number_of_pigs}}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
             {% endfor %}
         </tbody>
     </table>

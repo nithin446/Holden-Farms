@@ -521,6 +521,12 @@ thead td{
 /************************/
 #submissions{
     height:440px;
+    width:800px;
+}
+#submissions .flow{
+    background:#f5a541;
+    font-weight:bold;
+    color: white;
 }
 
 /************************/
@@ -544,11 +550,11 @@ thead td{
     height: 950px;
 }
 #pigEntry .input{
-    width:28%;
+    width:30%;
     margin:4px 0;
 }
-#pigEntry .input:nth-child(3n){
-    width:40%;
+#pigEntry .input:nth-child(2n+1){
+    width:68%;
 }
 .centered{
     transition: left .2s, height 0s;
