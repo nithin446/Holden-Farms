@@ -3,9 +3,6 @@ from django.utils import timezone
 from datetime import datetime
 from datetime import datetime, timedelta
 from django.contrib.auth.models import User
-from .models import PigEntry
-from .models import Flow
-from .forms import PigEntryForm
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError, transaction
 from django.shortcuts import redirect
@@ -13,10 +10,19 @@ from django import forms
 from django.forms import formset_factory
 from django.contrib import messages
 
+from .models import PigEntry
+from .models import Flow
+from .forms import PigEntryForm
+
 
 # Create your views here.
 @login_required
 def pig_form(request):
+    """
+        Loads the pig entry formset
+        Checks to see if each form is valid and then clears any existing form with the same entry_date and farm
+        Then adds all the new pig entrys to the database
+    """
     user = request.user
     
     PigFormSet = formset_factory(PigEntryForm,  extra=14)
@@ -62,8 +68,32 @@ def pig_form(request):
         #form.fields['entry_date'].widget = forms.HiddenInput()
     return render(request, 'mainForm/index.html', {'formset':PigFormSet, 'submission': request})
 
+
 @login_required
 def farm_submissions(request):
+    """
+        Loads the submissions page
+        Gets the day range to display based off the current day.
+            Finds the first day in current week and finds last day 2 weeks from now
+        Then gets all the submissions for each farm in each flow on each date
+
+        The submissions are then stored in the following structure
+
+        Submissions[
+        
+            (Flow, 
+            [
+                (Farm, FarmEntrys[]),
+                (Farm, FarmEntyrs[]),
+                ,...
+            ],
+            FlowTotals[]
+            ),
+            (Flow, [], FlowTotals[])
+        ]
+
+    """
+
     entry_dates = []
     day = datetime.today()
     day_of_week = datetime.today().weekday()
@@ -75,41 +105,40 @@ def farm_submissions(request):
     end_of_week = day + to_end_of_week
 
     delta = end_of_week - beginning_of_week         # timedelta
-    print(delta.days)
+
+    #Add all the entry dates to an array so we can display 
+    #them on the table head and load all the pig entrys for the dates
     for i in range(delta.days + 1):
         entry_dates.append(datetime.date(beginning_of_week + timedelta(days=i)))
 
-    print("Entry Dates:"+str(entry_dates))
-    #Stored with the following structure: 
-    # Submissions[
-    #   [
-    #       Flow, 
-    #       [
-    #           [Farm, FarmEntrys[]],
-    #           [Farm, FarmEntyrs[]],
-    #           ,...
-    #       ]
-    #   ],
-    #   [Flow, []]]
     submissions = []
     for flow in Flow.objects.all():
-        print(flow)
+        #print(flow)
         
         flow_data = []
 
         all_farms = User.objects.all().select_related('profile')
         farm_in_flow = all_farms.filter(profile__flow = flow)
 
+        flow_totals = [0] * 14
+        #Loop through all the farms contained in this flow
         for farm in farm_in_flow:
             farm_entrys = []
-            for date in entry_dates:
+
+            #Loop through all the dates in the current 2 week period
+            for counter, date in enumerate(entry_dates):
+
+                #Get all the submissions for current farm on this date and add it to the farm_entrys array
                 farm_entry = PigEntry.objects.filter(farm = farm, entry_date = date)      
                 farm_entrys.append(farm_entry)
+                if farm_entry:
+                   # print(farm_entry[0])
+                    flow_totals[counter] += (farm_entry[0].number_of_pigs)
+            #store the farm_entrys array with farm for easier access in template
             farm_entry_pair = (farm, farm_entrys)
             flow_data.append(farm_entry_pair)
-        
-        
-        submissions.append((flow,flow_data))
-    print(submissions)      
-        #submissions = PigEntry.objects.filter(farm = request.user).order_by('-entry_date')
+        print(flow_totals)  
+        submissions.append((flow,flow_data,flow_totals))
+    #print(submissions)      
+    #submissions = PigEntry.objects.filter(farm = request.user).order_by('-entry_date')
     return render(request, 'mainForm/submissions.html', {'submissions':submissions, 'dates':entry_dates})

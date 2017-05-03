@@ -14,15 +14,22 @@
         </thead>
         <tbody>
             {% for flow in submissions %}
-                <tr class="flow">
+                <tr class="flow" id="{{flow.0}}">
                     <td>{{flow.0}}</td>
+                    {% for total in flow.2 %}
+                    
+                        <td>
+                            {{total}} 
+                        </td>
+                           
+                    {% endfor %}
                 </tr>
                 {% for farm in flow.1 %}
-                    <tr>
-                        <td> {{farm.0}}</td>
+                    <tr class="{{flow.0}}">
+                        <td class = "collapsable"> <div>{{farm.0}}</div></td>
                         
                         {% for farm_submission in farm.1%}
-                            <td>{{farm_submission.0.number_of_pigs}}</td>
+                            <td class = "collapsable"><div>{{farm_submission.0.number_of_pigs}}</div></td>
                         {% endfor %}
                     </tr>
                 {% endfor %}
@@ -30,4 +37,14 @@
         </tbody>
     </table>
  </div>
+
+ <script>
+     $(".flow").each(function(){
+        this.onclick = function(){
+            $("."+this.id).each(function(){
+                $(this).toggleClass("active");
+            });
+        }
+     });
+ </script>
 {% endblock %}
