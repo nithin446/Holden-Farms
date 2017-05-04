@@ -4,6 +4,10 @@ from django.contrib.admin import widgets
 
 
 class PigEntryForm(forms.ModelForm):
+    """
+    Simple model form that contains input fields for the entry date and number of pigs entered
+    Shown on pig entry page
+    """
     class Meta:
         model = PigEntry
         fields = ('entry_date', 'number_of_pigs')

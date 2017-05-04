@@ -1,15 +1,18 @@
 {% extends 'mainForm/base.html' %}
-
+{% load static %}
 {% block content %}
     {% include 'mainForm/sidebar.html' %}
  <div class="centered" id="submissions">
+     <div class="centered shadowed"></div>
+    <h1> Sow Farm Numbers</h1>
     <table>
         <thead>
             <tr>
                 <td>
                 {% for date in dates %}
-                    <td>{{date|date:"M d"}}</td>
+                    <td>{{date|date:"m/d"}}</td>
                 {% endfor %}
+                <td></td> <!--Arrow Column Placeholder-->
             </tr>
         </thead>
         <tbody>
@@ -17,12 +20,11 @@
                 <tr class="flow" id="{{flow.0}}">
                     <td>{{flow.0}}</td>
                     {% for total in flow.2 %}
-                    
                         <td>
                             {{total}} 
-                        </td>
-                           
+                        </td>            
                     {% endfor %}
+                    <td> <image src="{% static 'images/arrow-right.png' %}"></td> <!--Arrow-->
                 </tr>
                 {% for farm in flow.1 %}
                     <tr class="{{flow.0}}">
@@ -31,6 +33,7 @@
                         {% for farm_submission in farm.1%}
                             <td class = "collapsable"><div>{{farm_submission.0.number_of_pigs}}</div></td>
                         {% endfor %}
+                        <td class="collapsable"><div></div></td> <!--Arrow Column Placeholder-->
                     </tr>
                 {% endfor %}
             {% endfor %}
@@ -44,6 +47,7 @@
             $("."+this.id).each(function(){
                 $(this).toggleClass("active");
             });
+            $(this).toggleClass("active");
         }
      });
  </script>

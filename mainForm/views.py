@@ -37,8 +37,8 @@ def pig_form(request):
                 if entry_form.is_valid():
                     number_of_pigs = entry_form.cleaned_data.get('number_of_pigs')
                     date = entry_form.cleaned_data.get('entry_date')
-                    print(date)
-                    if number_of_pigs:
+
+                    if number_of_pigs: #Add the new pig entry to a list to be dealt with later
                         new_entrys.append(PigEntry(farm=user, entry_date = date, number_of_pigs=number_of_pigs))
                 else:
                     print(entry_form.errors)
