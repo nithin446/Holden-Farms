@@ -1,11 +1,12 @@
 {% extends 'mainForm/base.html' %}
-
+{% block title %}Pig Entry{% endblock %}
 {% block content %}
     {% include 'mainForm/sidebar.html' %}
 
 
         
             <div class="centered small shadowed" id="pickDate">
+                <h1>Pig Entry</h1>
                 <div id="datepicker"></div>
                 <button type="button" id="nextButton" class="save btn btn-default">Next</button>
                 <ul class="errorlist" id="dateError">

@@ -129,5 +129,5 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR, 'staticfiles'),
 )
 
-LOGIN_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'farm_submissions'
 LOGIN_URL = 'login'
